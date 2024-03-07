@@ -40,4 +40,4 @@ Eshopper là một ứng dụng mua sắm trực tuyến chuyên bán các mặt
 Trần Anh Vũ (anhvuitc3012@gmail.com)
 
 ## Liên hệ:
-Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng lòng gửi qua email: anhvuitc@gmail.com
+Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng lòng gửi qua email: anhvuitc3012@gmail.com
