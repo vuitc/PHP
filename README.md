@@ -3,7 +3,7 @@ Eshopper là một ứng dụng mua sắm trực tuyến chuyên bán các mặt
 
 ## Công nghệ sử dụng
 1. HTML, CSS , Javascript, JQuery, MySQL.
-2. PHP ngôn ngử chính.
+2. PHP ngôn ngữ chính.
 3. Thư viện dùng  trong dự án:
     - Chart.draw: vẽ biểu đồ, đồ thị.
     - SweetAlert: Hiệu ứng hộp thoại hiển thị thông báo đẹp mắt.
