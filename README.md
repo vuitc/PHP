@@ -37,7 +37,7 @@ Eshopper là một ứng dụng mua sắm trực tuyến chuyên bán các mặt
 - Mình rất hoan nghênh sự đóng góp ý kiến của cộng đồng. Hãy tạo một yêu cầu kéo với cải tiến tối ưu nhất.
 
 ## Tác giả: 
-Trần Anh Vũ (trananhvu301200@gmail.com)
+Trần Anh Vũ (anhvuitc3012@gmail.com)
 
 ## Liên hệ:
-Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng lòng gửi qua email: trananhvu301200@gmail.com.
+Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng lòng gửi qua email: anhvuitc@gmail.com
