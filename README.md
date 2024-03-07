@@ -14,13 +14,13 @@ Eshopper là một ứng dụng mua sắm trực tuyến chuyên bán các mặt
 4. Vào trong thư mục cài Xampp có thư mục htdocs. Để code thư mục dự án ở đây (duan).
 5. Chạy dự án: http://localhost/duan
 ## Mô tả dự án:
-    -Dự án viết theo chuẩn mô hình MVC.
-    -Dự án bao gồm trang chủ, danh sách sản phẩm, trang chi tiết sản phẩm, trang thanh toán, và một số trang thông tin khác
-    -Trang quản trị: chứa đầy đủ các chức năng cơ bản thêm, sửa, xóa.
-    -Hiện tại đang trong quá trình phát triển thêm chức năng vẽ biểu đồ thống kê.
+1. Dự án viết theo chuẩn mô hình MVC.
+2. Dự án bao gồm trang chủ, danh sách sản phẩm, trang chi tiết sản phẩm, trang thanh toán, và một số trang thông tin khác
+3. Trang quản trị: chứa đầy đủ các chức năng cơ bản thêm, sửa, xóa.
+Hiện tại đang trong quá trình phát triển thêm chức năng vẽ biểu đồ thống kê.
 ## Cách đóng góp:
-    Mình rất hoan nghênh sự đóng góp ý kiến của cộng đồng. Hãy tạo một yêu cầu kéo với cải tiến hoặc báo lỗi của bạn.
+1.Mình rất hoan nghênh sự đóng góp ý kiến của cộng đồng. Hãy tạo một yêu cầu kéo với cải tiến hoặc báo lỗi của bạn.
 ## Tác giả: 
-    Trần Anh Vũ (trananhvu301200@gmail.com)
+Trần Anh Vũ (trananhvu301200@gmail.com)
 ## Liên hệ:
-    Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng lòng gửi qua email:  trananhvu301200@gmail.com
+Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng lòng gửi qua email:  trananhvu301200@gmail.com
