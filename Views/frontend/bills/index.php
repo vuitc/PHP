@@ -4,6 +4,8 @@
     // var_dump($cthds);
     // echo '</pre>';
 ?>
+ 
+ <?php if (!empty($cthds)) : ?> 
 <div class="table-responsive">
     <form action="" method="post">
       <table class="table table-bordered" border="0">           
@@ -29,7 +31,8 @@
           <td colspan="2"></td>
         </tr>
       </table>
-      <!-- Thông tin sản phầm -->
+     <!-- Kiểm tra xem có chi tiết hóa đơn không -->
+      <!-- Thông tin sản phẩm -->
       <table class="table table-bordered">
         <thead>
 
@@ -108,9 +111,7 @@
           </tr>
         </tbody>
       </table>
+      <?php else : ?>
+      <p>Chưa có hóa đơn mới nhất.</p>
+      <?php endif; ?>
     </form>
-  
-</div>
-</div>
-</div>
-</div>

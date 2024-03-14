@@ -1,16 +1,16 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h1>Image Slider List</h1>
     <?php if($sliders): ?>
-    <a href="index.php?controller=admin&action=sliderCreate" class="btn btn-primary mb-3">Create Slider</a>
+    <a href="index.php?controller=admin&action=sliderCreate" class="btn btn-primary mb-3">Tạo sliders</a>
     <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Image</th>
+                <th>Ảnh</th>
                 <th>Title 1</th>
                 <th>Title 2</th>
-                <th>Type</th>
-                <th>Actions</th>
+                <th>Loại</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
@@ -40,11 +40,11 @@
                 </td>
                 <td>
                     <a href="index.php?controller=admin&action=sliderEdit&id=<?php echo $slider['id']; ?>"
-                        class="btn btn-warning">Edit</a>
+                        class="btn btn-warning">Sửa</a>
                     <form action="index.php?controller=admin&action=sliderDestroy&id=<?php echo $slider['id']; ?>"
                         method="POST" style="display: inline-block;">
                         <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Bạn chắc chứ?')">Delete</button>
+                            onclick="return confirm('Bạn chắc chứ?')">Xóa</button>
                     </form>
                 </td>
             </tr>

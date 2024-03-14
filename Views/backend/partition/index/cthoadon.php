@@ -1,4 +1,4 @@
-<div class="span9">
+<div class="col-12" style="min-height:80vh">
     <form>
         <div class="form-group">
             <label for="search">Tìm kiếm theo Tên SP:</label>
@@ -8,6 +8,7 @@
 
     <?php if ($cts) : ?>
         <h2>Danh sách Chi tiết Hóa Đơn</h2>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -26,10 +27,12 @@
                         <td><?= $ct['soluongmua'] ?></td>
                         <td><?= number_format($ct['thanhtien'], 0, ',', '.') ?></td>
                         <td>
+                        <?php if ($tt <1) : ?>
                             <a href="index.php?controller=admin&action=cthdEdit&mshd=<?php echo $ct['masohd']; ?>&idp=<?php echo $ct['idProduct']; ?>&ids=<?php echo $ct['idSize']; ?>&idc=<?php echo $ct['idColor']; ?>&slm=<?php echo $ct['soluongmua']; ?>" class="btn btn-warning">Edit</a>
-                            <form action="index.php?controller=admin&action=cthdDestroy&mabl=<?= $mabl ?>" method="POST" style="display: inline-block;">
+                            <form action="index.php?controller=admin&action=cthdDestroy&mshd=<?php echo $ct['masohd']; ?>&idp=<?php echo $ct['idProduct']; ?>&ids=<?php echo $ct['idSize']; ?>&idc=<?php echo $ct['idColor']; ?>" method="POST" style="display: inline-block;">
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn chắc chứ?')">Xóa</button>
                             </form>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

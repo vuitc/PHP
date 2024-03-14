@@ -1,21 +1,13 @@
 </div>
+  </div>
 </div>
-<!--/.container-->
-</div>
-<!--/.wrapper-->
-<div class="footer">
-    <div class="container">
-        <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
-    </div>
-</div>
-<script src="admins/scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="admins/scripts/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
-<script src="admins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="admins/scripts/flot/jquery.flot.js" type="text/javascript"></script>
-<script src="admins/scripts/flot/jquery.flot.resize.js" type="text/javascript"></script>
-<script src="admins/scripts/datatables/jquery.dataTables.js" type="text/javascript"></script>
-<script src="admins/scripts/common.js" type="text/javascript"></script>
-
+<footer class="footer mt-auto py-3 bg-black">
+        <div class="container">
+            <span class="text-muted">Your Footer Content Here</span>
+        </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>

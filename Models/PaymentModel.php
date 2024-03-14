@@ -43,6 +43,7 @@
                 'vanchuyen'=>$vanchuyen,
                 "phone"=>$phone,
                 "diachi"=>$diachi,
+                "tinhtrang"=>0
             ];
             return $this->connect->insertData($table, $data);
         }

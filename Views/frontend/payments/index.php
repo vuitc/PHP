@@ -127,16 +127,6 @@ return $str;
                                     value="1">
                                 <label class="custom-control-label" for="httt-1">Tiền mặt</label>
                             </div>
-                            <div class="custom-control custom-radio">
-                                <input id="httt-2" name="httt_ma" type="radio" class="custom-control-input" required=""
-                                    value="2">
-                                <label class="custom-control-label" for="httt-2">Chuyển khoản</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input id="httt-3" name="httt_ma" type="radio" class="custom-control-input" required=""
-                                    value="3">
-                                <label class="custom-control-label" for="httt-3">Ship COD</label>
-                            </div>
                         </div>
                         <hr class="mb-4">
                         <button class="btn btn-primary btn-lg btn-block" type="submit" name="btnDatHang">Đặt hàng</button>

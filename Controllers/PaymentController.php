@@ -30,13 +30,14 @@ class PaymentController extends BaseController
             // khách hàng đã đăng nhập
             $username = $_SESSION['username_S'] ?? "";
             $khachhang = $this->paymentModel->findByUser($username);
+            $emailKh = $khachhang['email'];
             $carts = $_SESSION['cart'] ?? "";
             $discountPercent = $_SESSION['giam'] ?? 0;
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $diachi = $_POST['kh_diachi'] ?? '';
                 $phone = $_POST['kh_dienthoai'] ?? "";
-                if(!empty($diachi)&&!empty($phone)){
+                if (!empty($diachi) && !empty($phone)) {
                     $total = $this->productModel->total($carts);
                     $phiShip = $this->productModel->phiShip($total);
                     $phiGiamByVoucher = $this->productModel->tinhGiamByVoucher($total, $discountPercent);
@@ -51,21 +52,44 @@ class PaymentController extends BaseController
                                 $soluongmua = $product['qty'] ?? 0;
                                 $thanhtien = $soluongmua * ($product[0]['price'] * (1 - ($product[0]['giamgia']) / 100));
                                 // giảm số lượng 
-                                $updatedDatabase=$this->paymentModel->updatedData($idProduct, $idSize, $idColor, $soluongmua);
-                                if($updatedDatabase){
+                                $updatedDatabase = $this->paymentModel->updatedData($idProduct, $idSize, $idColor, $soluongmua);
+                                if ($updatedDatabase) {
                                     $createCTHD = $this->paymentModel->insertCTHD($createHD, $idProduct, $idSize, $idColor, $soluongmua, $thanhtien);
                                 }
                                 // sai thì hiển thị cho người dùng sản phẩm nào ko cập nhật được
                             }
-
                         }
                         unset($_SESSION['cart']);
-                        $_SESSION['mahd']=$createHD;
+                        require_once 'mail/class.phpmailer.php';
+                        require_once 'mail/class.smtp.php';
+                        $mail = new PHPMailer();
+                        $mail->CharSet = 'utf-8';
+                        $mail->IsSMTP();
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'ganh998811@gmail.com';
+                        $mail->Password = "xybl dawz oajq rerq";// Đây là mật khẩu ứng dụng cho ứng dụng của bạn, không phải là mật khẩu của tài khoản email chính
+                        $mail->SMTPSecure = "ssl";
+                        $mail->Host = "smtp.gmail.com";
+                        $mail->Port = "465";
+                        $mail->From = 'ganh998811@gmail.com';
+                        $mail->FromName = 'Vũ';
+                        $mail->AddAddress($email, 'ganh998811@gmail.com');
+                        $mail->Subject = 'Hóa đơn mua hàng';
+                        $mail->IsHTML(true);
+                        $mail->Body = 'Cấp lại mã code';
+                        if ($mail->Send()) {
+                            echo '<script>alert("Gửi mail thành công"); setTimeout(function() { window.location.href = "index.php?controller=register&action=change_passbymail2"; }, 100);</script>';
+                        } else {
+                            echo "Mail Error - >" . $mail->ErrorInfo;
+                            echo '<script>alert("Gửi mail không tồn tại"); setTimeout(function() { window.location.href = "index.php?controller=register&action=change_passbymail"; }, 100);</script>';
+                        }
+
+
                         echo '<script>alert("Thanh toán thành công"); setTimeout(function() { window.location.href = "index.php"; }, 100);</script>';
                     } else {
                         echo '<script>alert("Thất bại"); setTimeout(function() { window.location.href = "index.php?controller=payment"; }, 100);</script>';
                     }
-                }else{
+                } else {
                     echo '<script>alert("Nhập thông tin chưa hợp lệ"); setTimeout(function() { window.location.href = "index.php?controller=payment"; }, 100);</script>';
                 }
             }

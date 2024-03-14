@@ -30,11 +30,29 @@ function actionMethod(){
                 if($_SESSION['role']==1){
                     require_once 'Views/backend/header.php';
                     actionMethod();
-                    require_once 'Views/backend/header.php';
+                    require_once 'Views/backend/footer.php';
                      break;
                 }else{
                     echo '<script>alert("Bạn không có quyền admin"); setTimeout(function() { window.location.href = "index.php"; }, 100);</script>';
                 }
+            break;
+        case 'no':
+            session_start();
+            ob_start();
+            if(isset($_GET['action'])){
+                switch($_GET['action']){
+                    case 'file':
+                        require_once "./Views/backend/partition/csv/none.php";
+                        break;
+                    case 'productFile':
+                        require_once "./Views/backend/partition/csv/productcsv.php";
+                        break;
+                    case 'draw':
+                        require_once "./Views/backend/partition/csv/draw.php";
+                    
+                    break;
+                }
+            }
             break;
         default:
             require "./Controllers/HeaderController.php";

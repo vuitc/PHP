@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h2>Tạo Voucher Mới</h2>
     <form action="index.php?controller=admin&action=voucherC" method="POST">
         <div class="form-group">

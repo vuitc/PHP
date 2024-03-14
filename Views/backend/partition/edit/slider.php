@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h1>Edit Slider</h1>
     <form action="index.php?controller=admin&action=sliderUpdate&id=<?php echo $sliderDetails['id']; ?>" method="POST">
         <div class="mb-3">

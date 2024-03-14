@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h1>Edit Product</h1>
     <form method="POST" action="index.php?controller=admin&action=productUpdate&id=<?php echo $productDetails['id']; ?>">
         <div class="form-group">

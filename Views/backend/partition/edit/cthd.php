@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h1>Edit  CTHD</h1>
     <form method="POST" action="index.php?controller=admin&action=cthdUpdate">
         <label for="soluongmua">soluongmua:</label>
@@ -8,6 +8,9 @@
         <input type="hidden" value="<?php echo $idColor?>" name="idColor">
         <input type="hidden" value="<?php echo $idSize?>" name="idSize">
         <input type="hidden" value="<?php echo $soluongmua?>" name="soluongmuacu">
+        <input type="hidden" value="<?php echo $soluongton?>" name="soluongtoncu">
+        <input type="hidden" value="<?php echo $masohd?>" name="masohd">
+
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>

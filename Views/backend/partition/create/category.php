@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h1>Create Category</h1>
     <form action="index.php?controller=admin&action=categoryC" method="POST" enctype="multipart/form-data">
         <div class="mb-3">

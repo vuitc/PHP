@@ -11,7 +11,7 @@ require_once 'BaseController.php';
         public function index(){
             if(isset($_SESSION['mahd'])){
                $hd=$this->billModel->getHoaDon($_SESSION['mahd']);
-               $makh=$hd['makh'];
+               $makh=$hd['makh']??'';
                $cthds=$this->billModel->getCtHoaDon($_SESSION['mahd']);
                $hotenkh=$this->billModel->getHoTen($makh);
                return $this->view('frontend.bills.index',[

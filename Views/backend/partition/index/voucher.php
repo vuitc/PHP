@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <?php if($vouchers): ?>
         <?php $flag = false; ?>
         <?php foreach ($vouchers as $voucher): ?>
@@ -64,7 +64,7 @@
                         <th>Code</th>
                         <th>Percent</th>
                         <th>Ngày Hết Hạn</th>
-                        <th>Action</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,7 +84,7 @@
                                     <form action="index.php?controller=admin&action=voucherDestroy&id=<?= $voucher['id'] ?>"
                                         method="POST" style="display: inline-block;">
                                         <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Bạn chắc chứ?')">Delete</button>
+                                            onclick="return confirm('Bạn chắc chứ?')">Xóa</button>
                                     </form>
                                 </td>
                             </tr>

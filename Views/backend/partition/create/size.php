@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h1>Create Size</h1>
 
     <form action="index.php?controller=admin&action=sizeC" method="POST">

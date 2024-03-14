@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <h1>Edit Size</h1>
 
     <!-- Hiển thị thông tin chi tiết của màu sắc -->

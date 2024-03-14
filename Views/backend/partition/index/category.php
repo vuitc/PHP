@@ -1,15 +1,15 @@
-<div class="span-9">
-    <h1>Category List</h1>
+<div class="col-12" style="min-height:80vh">
+    <h1>Danh mục chính</h1>
     <?php if($categories): ?>
-    <a href="index.php?controller=admin&action=categoryCreate" class="btn btn-primary mb-3">Create Category</a>
+    <a href="index.php?controller=admin&action=categoryCreate" class="btn btn-primary mb-3">Tạo danh mục</a>
     <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Main Image</th>
-                <th>Actions</th>
+                <th>Tên</th>
+                <th>Tên đường dẫn</th>
+                <th>Ảnh chính</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>

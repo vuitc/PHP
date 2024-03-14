@@ -1,11 +1,11 @@
-<div class="span9">
+<div class="col-12" style="min-height:80vh">
     <h1>Create Product</h1>
     <form action="index.php?controller=admin&action=productC" method="POST">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" name="name" id="name" class="form-control" required>
         </div>
-        <div class="form-group">
+        <div class="form-group"></div>
             <label for="id_category">Category ID:</label>
             <input type="text" name="id_category" id="id_category" class="form-control" required>
         </div>

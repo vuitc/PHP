@@ -1,4 +1,4 @@
-<div class="span9">
+<div class="col-12" style="min-height:80vh">
     <h1>Create New Admin</h1>
     <form action="index.php?controller=admin&action=khachHangC" method="POST">
         <div class="form-group">

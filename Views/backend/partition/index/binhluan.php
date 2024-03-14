@@ -1,4 +1,4 @@
-<div class="span-9">
+<div class="col-12" style="min-height:80vh">
     <?php if($binhluans): ?>
         <?php $flag = false; ?>
         <?php foreach ($binhluans as $binhluan): ?>
@@ -14,8 +14,8 @@
                 <thead>
                     <tr>
                         <th>MABL</th>
-                        <th>Content</th>
-                        <th>Action</th>
+                        <th>Nội dung</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,8 +49,8 @@
             <thead>
                 <tr>
                     <th>MABL</th>
-                    <th>Content</th>
-                    <th>Action</th>
+                    <th>Nội dung</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,7 +64,7 @@
                                 <form action="index.php?controller=admin&action=binhLuanDestroy&mabl=<?= $mabl ?>"
                                     method="POST" style="display: inline-block;">
                                     <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Bạn chắc chứ?')">Delete</button>
+                                        onclick="return confirm('Bạn chắc chứ?')">Xóa</button>
                                 </form>
                             </td>
                         </tr>
