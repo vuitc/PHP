@@ -149,7 +149,7 @@ require_once 'BaseController.php'; // assuming BaseController.php is in the same
                 $_SESSION['email']=array();
                 $kq=$this->registerModel->checkEmail($email);
                 if($kq>0){
-                    $code=random_int(1000,100000);
+                    $code=random_int(100000,999999);
                     $item=array(
                         'id'=>$code,
                         'email'=>$email,

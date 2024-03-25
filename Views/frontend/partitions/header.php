@@ -113,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -205,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="index.php?controller=bill" class="btn border">
+                <a href="index.php?controller=bill&action=hd" class="btn border">
                     <i class="fas fa-file-invoice text-primary"></i>
                 </a>
                 <a href="index.php?controller=cart" class="btn border">
@@ -253,11 +252,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             <a href="index.php?controller=detail&id=1" class="nav-item nav-link">Trang chi tiết</a>
                             <!-- <a href="index.php?controller=contact" class="nav-item nav-link">Liên hệ</a> -->
                         </div>
+                    
                         <div class="navbar-nav ml-auto py-0">
                             <?php
                                 $str='';
                                 if (isset($_SESSION['username_S']) && $_SESSION['username_S']) {
-                                    $str .= '<span  class="nav-item nav-link">' . $_SESSION['username_S'] . '</span>';
+                                    if (!empty($avatarH)) {
+                                        // $str.='<img src="asset/img/'.$avatarH[0]['avatar'].'" alt="" style="width:50px; border-radius:50%">';
+                                        $str.='<span><img src="asset/img/'.$avatarH[0]['avatar'].'" alt="" style="width:50px; border-radius:50%"></span>';
+                                    }
+                                    $str .= '<a href="index.php?controller=index&action=info" class="nav-item nav-link">' . $_SESSION['username_S'] . '</a>';
                                     $str .= '<a href="index.php?controller=register&action=change_pass" class="nav-item nav-link">Đổi mật khẩu</a>';
                                     $str .= '<a href="index.php?controller=register&action=logout" class="nav-item nav-link">Đăng xuất</a>';
                                 } else {

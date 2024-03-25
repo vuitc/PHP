@@ -105,7 +105,7 @@
             </div>
         </div>
     </form>
-    <?php if ($hoadons) : ?>
+    <?php if ($listHoadon) : ?>
         <h2>Kết quả tìm kiếm</h2>
         <table class="table">
             <thead>
@@ -123,7 +123,7 @@
                 </tr>
             </thead>
             <tbody id="searchResult">
-                <?php foreach ($hoadons as $hoadon) : ?>
+                <?php foreach ($listHoadon as $hoadon) : ?>
                     <tr>
                         <td><a href="index.php?controller=admin&action=cthoadonIndex&id=<?= $hoadon['id'] ?>"><?= $hoadon['id'] ?></a></td>
                         <td><?= $hoadon['tenkh'] ?></td>
@@ -156,6 +156,12 @@
     <?php else : ?>
         <div class="alert alert-info">Không tìm thấy hóa đơn nào.</div>
     <?php endif; ?>
+    <nav aria-label="Page navigation">
+      <?php
+        $result=renderPages($countPages,$currentPages,'index.php?controller=admin&action=hoadonIndex');
+        echo $result;
+     ?>
+    </nav>
 </div>
 
 <script>
@@ -188,3 +194,29 @@ document.getElementById('search').addEventListener('keydown', function(event) {
 });
 
 </script>
+<?php
+     function renderPages($countPages, $current_page, $url) {
+        $str = '<ul class="pagination justify-content-center mb-3">';
+        // Nút Previous
+        $str .= '<li class="page-item ' . (($current_page == 1) ? 'disabled' : '') . '">';
+        $str .= '<a class="page-link" href="' . $url . '&pages=' . max(1, $current_page - 1) . '" aria-label="Previous">';
+        $str .= '<span aria-hidden="true">&laquo;</span>';
+        $str .= '<span class="sr-only">Previous</span>';
+        $str .= '</a></li>';
+        // Danh sách các trang
+        for ($i = 1; $i <= $countPages; $i++) {
+            $str .= '<li class="page-item ' . (($i == $current_page) ? 'active' : '') . '">';
+            $str .= '<a class="page-link" href="' . $url . '&pages=' . $i . '">' . $i . '</a>';
+            $str .= '</li>';
+        }
+        // Nút Next
+        $str .= '<li class="page-item ' . (($current_page == $countPages) ? 'disabled' : '') . '">';
+        $str .= '<a class="page-link" href="' . $url . '&pages=' . min($countPages, $current_page + 1) . '" aria-label="Next">';
+        $str .= '<span aria-hidden="true">&raquo;</span>';
+        $str .= '<span class="sr-only">Next</span>';
+        $str .= '</a></li>';
+        $str .= '</ul>';
+        return $str;
+    }
+    ?>
+?>

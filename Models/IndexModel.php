@@ -1,5 +1,6 @@
 <?php
     require_once 'BaseModel.php';
+
     class IndexModel{
         const TABLE='img_slider';
         public $connect;
@@ -35,6 +36,28 @@
                 'id'=>12,
                 'name'=>'iphone',
             ];
+        }
+        public function getInfo($username){
+            $sql = 'SELECT tenkh, diachi, phone, avatar from khachhang where username=:username';
+
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
+        public function updateUser($tenkh, $phone, $diachi, $username,$image){
+            $table = 'khachhang';
+            $data = [
+                'tenkh' => $tenkh,
+                'phone' => $phone,
+                'diachi' => $diachi,
+                'avatar'=>$image
+            ];
+            $condition = 'username = :username';
+            $params = [':username' => $username]; 
+            $updated = $this->connect->updateData($table, $data, $condition, $params);
+            return $updated;    
         }
     }
 ?>

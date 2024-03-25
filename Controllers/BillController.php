@@ -25,6 +25,33 @@ require_once 'BaseController.php';
             }
 
         }
+        public function hd(){
+            if(isset($_SESSION['username_S'])){
+                $username=$_SESSION['username_S'];
+                $hds=$this->billModel->getHoaDonByKhachHang($username);
+                return $this->view('frontend.bills.hd',[
+                    'pageTitle'=>'Trang bill',
+                    'hds'=>$hds,
+                ]);
+            }else{
+                echo '<script>alert("Không tìm thấy hoá đơn."); setTimeout(function() { window.location.href = "index.php"; }, 100);</script>';
+            }
+        }
+        public function cthd(){
+            if(isset($_SESSION['username_S'])){
+                $username=$_SESSION['username_S'];
+                if(isset($_GET['id'])){
+                    $id=$_GET['id'];
+                    $cthds=$this->billModel->getCthd($id,$username);
+                    return $this->view('frontend.bills.cthd',[
+                        'pageTitle'=>'Trang bill',
+                        'cthds'=>$cthds,
+                    ]);
+                }else{
+                    echo '<script>alert("Không tìm thấy hoá đơn."); setTimeout(function() { window.location.href = "index.php"; }, 100);</script>';
+                }
+            }
+        }
         public function show(){
         //  $product= $this->productModel->findById(1);
         //     return $this->view('frontend.products.show',[

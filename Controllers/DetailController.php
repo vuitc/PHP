@@ -8,7 +8,10 @@
              $this->detailModel=new DetailModel;
          }
          public function index(){
-            $id=$_GET['id'];
+            $id=$_GET['id']??"";
+            if(!$id){
+                header("Location:index.php");
+            }
             if ($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_POST['btnClick1'])) {
                 $content=$_POST['content']??"";
                 $star=$_POST['danhgiasao']??0;

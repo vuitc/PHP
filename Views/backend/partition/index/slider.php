@@ -1,5 +1,5 @@
 <div class="col-12" style="min-height:80vh">
-    <h1>Image Slider List</h1>
+    <h1>Danh mục hiển thị</h1>
     <?php if($sliders): ?>
     <a href="index.php?controller=admin&action=sliderCreate" class="btn btn-primary mb-3">Tạo sliders</a>
     <table class="table">

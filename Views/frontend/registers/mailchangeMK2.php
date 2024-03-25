@@ -129,8 +129,8 @@ ob_start();
             // }
             ?>
             <div class="form-field">
-                <label for="pass">Password:</label>
-                <input type="text" name="pass" id="pass" placeholder="Nhập pass" />
+                <label for="pass">Mật khẩu:</label>
+                <input type="text" name="pass" id="pass" placeholder="Nhập mật khẩu mới" />
                 <small></small>
             </div>
             <div class="form-field">

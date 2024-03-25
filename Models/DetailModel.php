@@ -60,7 +60,7 @@
         }
         // bình luận
         public function getBinhLuan($idhanghoa){
-            $sql='SELECT b.mabl, b.idhanghoa, b.makh, b.content, b.ngaybl, k.tenkh, k.avatar, b.sao FROM binhluan b JOIN khachhang k ON b.makh = k.makh WHERE b.idhanghoa = :idhanghoa;';
+            $sql='SELECT b.mabl, b.idhanghoa, b.makh, b.content, b.ngaybl, k.tenkh, k.avatar, b.sao FROM binhluan b JOIN khachhang k ON b.makh = k.makh WHERE b.idhanghoa = :idhanghoa and b.isAccept=1;';
             $stmt = $this->connect->prepare($sql);
             $stmt->bindParam(':idhanghoa', $idhanghoa, PDO::PARAM_INT);
             $stmt->execute();

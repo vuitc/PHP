@@ -16,10 +16,6 @@ require_once 'BaseController.php';
 
         }
         public function show(){
-        //  $product= $this->productModel->findById(1);
-        //     return $this->view('frontend.products.show',[
-        //         'product'=>$product,
-        //     ]);
 
         }
         

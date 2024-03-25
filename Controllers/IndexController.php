@@ -1,5 +1,7 @@
 <?php
     require_once 'BaseController.php'; 
+    require_once 'fn.php';
+    ob_start();
     class IndexController extends BaseController{
         private $indexModel;
         public function __construct()
@@ -22,6 +24,35 @@
                 'productAoDai'=>[$productAoDai,"Áo dài"]
             ]);
 
+        }
+        public function info(){
+            if(isset($_SESSION['username_S'])){
+                $username=$_SESSION['username_S'];
+                $thongtin=$this->indexModel->getInfo($username);
+                return $this->view('frontend.users.index',[
+                    'thongtin'=>$thongtin,
+                ]);
+            }
+        }
+        public function changeInfo(){
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $tenkh = $_POST['tenkh'];
+                $phone = $_POST['phone'];
+                $diachi = $_POST['diachi'];
+                $username=isset($_SESSION['username_S'])?$_SESSION['username_S']:'';         
+                if ($tenkh && $phone && $diachi && $username) {
+                    $image = $_FILES['image']['name'];
+                    $uploadResult = uploadImage();
+                    if ($uploadResult == 1) {
+                        $created = $this->indexModel->updateUser($tenkh, $phone, $diachi, $username,$image);
+                        echo '<script>alert("Tạo thành công"); window.location.href = "index.php?controller=index&action=info";</script>';
+                        
+                    } else {
+                        header('Location: index.php?controller=index&action=info');
+                        exit;
+                    }
+                }
+            }
         }
         public function show(){
          $product= $this->indexModel->findById(1);

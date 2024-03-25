@@ -1,5 +1,5 @@
 <div class="col-12" style="min-height:80vh">
-    <h1>Edit Slider</h1>
+    <h1>Sửa danh mục hiển thị</h1>
     <form action="index.php?controller=admin&action=sliderUpdate&id=<?php echo $sliderDetails['id']; ?>" method="POST">
         <div class="mb-3">
             <label for="img" class="form-label">Image</label>

@@ -19,9 +19,9 @@ class CartController extends BaseController
             if ($voucherDetails) {
                 $discountPercent = $voucherDetails['percent'];
                 $_SESSION['giam']=$discountPercent;
-                echo '<script>alert("Voucher giảm ' . $discountPercent . '. Mua ngay"); setTimeout(function() { window.location.href = "index.php?controller=cart"; }, 100);</script>';
+                echo '<script>alert("Voucher giảm ' . $discountPercent . '. Mua ngay"); setTimeout(function() { window.location.href = "index.php?controller=cart"; });</script>';
             } else {
-                echo '<script>alert("Mã voucher không hợp lệ"); setTimeout(function() { window.location.href = "index.php?controller=cart"; }, 100);</script>';
+                echo '<script>alert("Mã voucher không hợp lệ"); setTimeout(function() { window.location.href = "index.php?controller=cart"; });</script>';
             }
         }
         $productsInCart = $_SESSION['cart'] ?? [];
@@ -54,7 +54,7 @@ class CartController extends BaseController
                 'sum'=>$sum,
             ]);
         }else{
-            echo '<script>alert("Chưa có sản phẩm trong giỏ hàng"); setTimeout(function() { window.location.href = "index.php"; }, 100);</script>';
+            echo '<script>alert("Chưa có sản phẩm trong giỏ hàng"); setTimeout(function() { window.location.href = "index.php"; });</script>';
         }
     }
 
@@ -93,10 +93,11 @@ class CartController extends BaseController
             $product = $this->productModel->findById($id, $idColor, $idSize);
     
             if (empty($_SESSION['cart']) || !isset($_SESSION['cart'][$key])) {
-                var_dump($_SESSION['cart']);
-                
+                // echo '<pre>';
+                // var_dump($_SESSION['cart']);
+                // echo '</pre>';
                 if($soluong>$product[0]['soluongton']){
-                    echo '<script>alert("Vượt qua số lượng tồn kho"); setTimeout(function() { window.location.href = "index.php?controller=detail&id='.$id.'"; }, 100);</script>';
+                    echo '<script>alert("Vượt qua số lượng tồn kho"); setTimeout(function() { window.location.href = "index.php?controller=detail&id='.$id.'"; });</script>';
                 }else{
                     $product['qty'] = $soluong;
                     $_SESSION['cart'][$key] = $product;
@@ -105,13 +106,13 @@ class CartController extends BaseController
                 }
             } else {
                 if( ($_SESSION['cart'][$key]['qty']+$soluong)>$_SESSION['cart'][$key][0]['soluongton']){
-                    echo '<script>alert("Vượt qua số lượng tồn kho"); setTimeout(function() { window.location.href = "index.php?controller=detail&id='.$id.'"; }, 100);</script>';
+                    echo '<script>alert("Vượt qua số lượng tồn kho"); setTimeout(function() { window.location.href = "index.php?controller=detail&id='.$id.'"; });</script>';
                 }else{
-                    var_dump('<pre>');
-                    var_dump($_SESSION['cart']);
-                    var_dump('</pre>');
+                    // var_dump('<pre>');
+                    // var_dump($_SESSION['cart']);
+                    // var_dump('</pre>');
                     $_SESSION['cart'][$key]['qty'] += $soluong;
-                    header('Location: index.php?controller=cart');
+                    // header('Location: index.php?controller=cart');
                 }
             }
     
@@ -119,15 +120,22 @@ class CartController extends BaseController
         }
     }
     public function upQuantity()
-    {
-        $ma = $_GET['index'] ?? null;
-        if (empty($_SESSION['cart']) || !isset($_SESSION['cart'][$ma])) {
-            header('Location: index.php?controller=cart');
+{
+    $ma = $_GET['index'] ?? null;
+    if (empty($_SESSION['cart']) || !isset($_SESSION['cart'][$ma])) {
+        header('Location: index.php?controller=cart');
+    } else {
+        $currentQty = $_SESSION['cart'][$ma]['qty'];
+        $stockQty = $_SESSION['cart'][$ma][0]['soluongton'];
+        if ($currentQty >= $stockQty) {
+            echo '<script>alert("Số lượng vượt quá tồn kho"); setTimeout(function() { window.location.href = "index.php?controller=cart"; });</script>';
         } else {
             $_SESSION['cart'][$ma]['qty'] += 1;
             header('Location: index.php?controller=cart');
         }
     }
+}
+
 
     public function downQuantity()
     {

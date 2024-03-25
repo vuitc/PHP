@@ -9,19 +9,8 @@ require_once 'BaseController.php'; // assuming BaseController.php is in the same
             $this->productModel=new ProductModel;
         }
         public function index(){
-            // $products=$this->productModel->getAll();
-            // return $this->view('frontend.products.index',[
-            //     'pageTitle'=>'Trang danh sách sản phẩm',
-            //     'products'=>$products,
-            // ]);
-
         }
         public function show(){
-        //  $product= $this->productModel->findById(1);
-        //     return $this->view('frontend.products.show',[
-        //         'product'=>$product,
-        //     ]);
-
         }
         
         public function delete(){

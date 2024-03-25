@@ -10,37 +10,37 @@
         }
     
         public function getAllColors() {
-            $sql = 'SELECT * FROM color';
+            $sql = 'SELECT * FROM color order by id desc';
             $colors = $this->getAllSql($sql);
             return $colors;
         }
         public function getAllSizes() {
-            $sql = 'SELECT * FROM size';
+            $sql = 'SELECT * FROM size order by id desc';
             $sizes = $this->getAllSql($sql);
             return $sizes;
         }
         public function getAllSliders() {
-            $sql = 'SELECT * FROM img_slider';
+            $sql = 'SELECT * FROM img_slider order by id desc';
             $silders = $this->getAllSql($sql);
             return $silders;
         }
         public function getAllCategories() {
-            $sql = 'SELECT * FROM category';
+            $sql = 'SELECT * FROM category order by id desc';
             $categories = $this->getAllSql($sql);
             return $categories;
         }
         public function getAllKhachHangs() {
-            $sql = 'SELECT * FROM khachhang';
+            $sql = 'SELECT * FROM khachhang order by makh desc';
             $khachhangs = $this->getAllSql($sql);
             return $khachhangs;
         }
         public function getAllProducts() {
-            $sql = 'SELECT * FROM product';
+            $sql = 'SELECT * FROM product order by id desc';
             $khachhangs = $this->getAllSql($sql);
             return $khachhangs;
         }
         public function getAllBinhLuans() {
-            $sql = 'SELECT * FROM binhluan';
+            $sql = 'SELECT * FROM binhluan order by mabl desc';
             $binhluans = $this->getAllSql($sql);
             return $binhluans;
         }
@@ -50,7 +50,7 @@
             return $vouchers;
         }
         public function getAllHoaDons() {
-            $sql = 'SELECT h.id, h.makh, h.ngaydat, h.tongtien, h.giam, h.vanchuyen, h.phone, h.diachi, k.tenkh, h.tinhtrang FROM hoadon h JOIN khachhang k ON h.makh = k.makh';
+            $sql = 'SELECT h.id, h.makh, h.ngaydat, h.tongtien, h.giam, h.vanchuyen, h.phone, h.diachi, k.tenkh, h.tinhtrang FROM hoadon h JOIN khachhang k ON h.makh = k.makh order by id desc';
             $hoadons = $this->getAllSql($sql);
             $today = new DateTime();
             foreach($hoadons as $hoadon){
@@ -81,6 +81,7 @@
             $sql = "SELECT ct.masohd, ct.idProduct, ct.idSize, ct.idColor, ct.soluongmua, ct.thanhtien, p.name, c.color, s.size 
                     FROM cthoadon ct 
                     JOIN product p ON ct.idProduct = p.id 
+                    JOIN ctproduct ctp ON ct.idProduct=ctp.idproduct and ct.idSize=ctp.idsize and ct.idColor=ctp.idcolor
                     JOIN color c ON ct.idColor = c.id 
                     JOIN size s ON ct.idSize = s.id
                     WHERE ct.masohd = '$id'";
@@ -97,20 +98,40 @@
             $count=$this->getCount($sql);
             return $count;
         }
+        public  function getCountAllHoaDon(){
+            $sql='SELECT * FROM hoadon';
+            $count=$this->getCount($sql);
+            return $count;
+        }
         // public function getAllKhachHangedPage($start, $limit) {
         //     $sql = 'SELECT k.makh, k.tenkh, k.username, k.email,k.diachi, k.phone,k.role FROM khachhang k limit ' . $start . ', ' . $limit;
         //     $result = $this->getAllSql($sql);
         //     return $result;
         // }
         public function getAllProductedPage($start, $limit) {
-            $sql = 'SELECT * FROM product limit ' . $start . ', ' . $limit;
+            $sql = 'SELECT * FROM product ORDER BY id DESC LIMIT ' . $start . ', ' . $limit;
             $result = $this->getAllSql($sql);
             return $result;
         }
+        public function getAllHoaDonedPage($start, $limit) {
+            $sql = 'SELECT h.id, h.makh, h.ngaydat, h.tongtien, h.giam, h.vanchuyen, h.phone, h.diachi, k.tenkh, h.tinhtrang 
+                    FROM hoadon h 
+                    JOIN khachhang k ON h.makh = k.makh 
+                    ORDER BY h.id DESC 
+                    LIMIT :start, :limit';
+            $stmt = $this->prepare($sql);
+            $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
+        
         public function getAllKhachHangedPage($start, $limit, $searchTerm = '') {
             $sql = 'SELECT * FROM khachhang';
             if (!empty($searchTerm)) {
                 $sql .= ' WHERE tenkh LIKE :searchTerm1 OR username LIKE :searchTerm2 OR email LIKE :searchTerm3';
+                $sql.=' order by makh desc';
                 $sql .= ' LIMIT ' . $start . ', ' . $limit;
                 $stmt = $this->prepare($sql);
                 $searchTerm = '%' . $searchTerm . '%';
@@ -118,6 +139,7 @@
                 $stmt->bindValue(':searchTerm2', $searchTerm, PDO::PARAM_STR);
                 $stmt->bindValue(':searchTerm3', $searchTerm, PDO::PARAM_STR);
             } else {
+                $sql .= ' ORDER BY makh DESC';
                 $sql .= ' LIMIT ' . $start . ', ' . $limit;
                 $stmt = $this->prepare($sql);
             }
@@ -277,6 +299,11 @@
             $details = $this->getOneSql($sql, [':id' => $sizeId]);
             return $details;
         }
+        public function getCategoryDetails($categoryId) {
+            $sql = "SELECT * FROM category WHERE id = :id";
+            $details = $this->getOneSql($sql, [':id' => $categoryId]);
+            return $details;
+        }
         public function getSliderDetails($sliderId) {
             $sql = "SELECT * FROM img_slider WHERE id = :id";
             $sliderDetails = $this->getOneSql($sql, [':id' => $sliderId]);
@@ -300,6 +327,14 @@
             $data = ['size' => $sizeName];
             $condition = 'id = :id';
             $params = [':size' => $sizeName, ':id' => $sizeId];
+            $updated = $this->updateData($table, $data, $condition, $params);
+            return $updated;
+        }
+        public function updateCategory($id, $name, $slug='', $image){
+            $table = 'category';
+            $data = ['name' => $name,'slug'=>$slug, 'img_chinh'=>$image];
+            $condition = 'id = :id';
+            $params = [':id' => $id];
             $updated = $this->updateData($table, $data, $condition, $params);
             return $updated;
         }
@@ -328,7 +363,7 @@
                 'chitiet' => $chitiet,
             ];
             $condition = 'id = :id';
-            $params = [':id' => $id]; // Only one parameter needed for the condition
+            $params = [':id' => $id]; 
             $updated = $this->updateData($table, $data, $condition, $params);
             return $updated;    
         }
@@ -360,8 +395,10 @@
                 'soluongton' => $soluongton,
                 'giamgia' => $giamgia,
                 'price' => $price,
-                'image'=>$image
             ];
+            if($image){
+                $data['image']=$image;
+            }
             $condition = 'idproduct = :idp AND idcolor = :idc AND idsize = :ids';
             $params = [':idp' => $idp, ':idc' => $idc, ':ids' => $ids]; 
             $updated = $this->updateData($table, $data, $condition, $params);
@@ -396,6 +433,10 @@
         public function deleteSize($sizeId) {
             $sql = "DELETE FROM size WHERE id = :sizeId";
             return $this->deleteData($sql, [':sizeId' => $sizeId]);
+        }
+        public function deleteCategory($categoryId) {
+            $sql = "DELETE FROM category WHERE id = :categoryId";
+            return $this->deleteData($sql, [':categoryId' => $categoryId]);
         }
         public function deleteSlider($sliderId) {
             $sql = "DELETE FROM img_slider WHERE id = :id";
@@ -460,13 +501,134 @@
             $result=$this->getAllSql($sql);
             return $result;
         }
-        public function getThongKe1($start, $end) {
+        public function getThongKe1($month, $year) {
+            if (is_numeric($month)) {
+            $sql = 'SELECT p.name, SUM(ct.soluongmua) AS soluong 
+                    FROM cthoadon ct 
+                    JOIN product p ON p.id = ct.idProduct 
+                    JOIN hoadon h ON h.id = ct.masohd 
+                    WHERE month(h.ngaydat)= :month AND year(h.ngaydat) = :year 
+                    GROUP BY ct.idProduct';
+                     $stmt = $this->conn->prepare($sql);
+                     $stmt->bindParam(':month', $month, PDO::PARAM_STR);
+            }else{
+                $quy = array(
+                    'q1' => 'MONTH(h.ngaydat) BETWEEN 1 AND 3',
+                    'q2' => 'MONTH(h.ngaydat) BETWEEN 4 AND 6',
+                    'q3' => 'MONTH(h.ngaydat) BETWEEN 7 AND 9',
+                    'q4' => 'MONTH(h.ngaydat) BETWEEN 10 AND 12'
+                );
+                $sql = 'SELECT p.name, SUM(ct.soluongmua) AS soluong 
+                FROM cthoadon ct 
+                JOIN product p ON p.id = ct.idProduct 
+                JOIN hoadon h ON h.id = ct.masohd 
+                WHERE ' . $quy[$month] . ' AND YEAR(h.ngaydat) = :year 
+                GROUP BY ct.idProduct';
+                 $stmt = $this->conn->prepare($sql);
+            }
+           
+            $stmt->bindParam(':year', $year, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);   
+            return $result;
+        }
+        public function getThongKeThangHienTai() {
+            $end = date('Y-m-d');
+            $start = date('Y-m-01');
             $sql = 'SELECT p.name, SUM(ct.soluongmua) AS soluong 
                     FROM cthoadon ct 
                     JOIN product p ON p.id = ct.idProduct 
                     JOIN hoadon h ON h.id = ct.masohd 
                     WHERE h.ngaydat > :start AND h.ngaydat < :end 
-                    GROUP BY ct.idProduct';
+                    GROUP BY ct.idProduct
+                    ORDER BY soluong DESC 
+                    LIMIT 10;
+                    ';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':start', $start, PDO::PARAM_STR);
+            $stmt->bindParam(':end', $end, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $result;
+        }
+        public function getThongKeTungThang() {
+            $endDate = date('Y-m-d');
+            $startDate = date('Y-01-01');
+            $sql = "SELECT YEAR(h.ngaydat) AS year, MONTH(h.ngaydat) AS month, SUM(ct.soluongmua) AS soluong
+                    FROM cthoadon ct
+                    JOIN hoadon h ON h.id = ct.masohd
+                    WHERE h.ngaydat >= :start AND h.ngaydat <= :end
+                    GROUP BY year, month
+                    ORDER BY year, month";
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':start', $startDate, PDO::PARAM_STR);
+            $stmt->bindParam(':end', $endDate, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            return $result;
+        }
+        public function getThongKeTungQuy() {
+            $endDate = date('Y-m-d');
+            $startDate = date('Y-01-01');
+            $sql = "SELECT YEAR(h.ngaydat) AS year, 
+                           QUARTER(h.ngaydat) AS quarter, 
+                           SUM(ct.soluongmua) AS soluong
+                    FROM cthoadon ct
+                    JOIN hoadon h ON h.id = ct.masohd
+                    WHERE h.ngaydat >= :start AND h.ngaydat <= :end
+                    GROUP BY year, quarter
+                    ORDER BY year, quarter";
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':start', $startDate, PDO::PARAM_STR);
+            $stmt->bindParam(':end', $endDate, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            return $result;
+        }
+        public function getThongKeTungNam() {
+            $currentYear = date('Y');
+            $startYear = $currentYear - 2;
+            $startDate = date('Y-m-d', strtotime("$startYear-01-01"));
+            $endDate = date('Y-m-d');
+        
+            // Chuẩn bị câu truy vấn SQL
+            $sql = "SELECT YEAR(h.ngaydat) AS year, 
+                           SUM(ct.soluongmua) AS soluong
+                    FROM cthoadon ct
+                    JOIN hoadon h ON h.id = ct.masohd
+                    WHERE h.ngaydat >= :start AND h.ngaydat <= :end
+                    GROUP BY year
+                    ORDER BY year";
+        
+            // Thực thi truy vấn SQL
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':start', $startDate, PDO::PARAM_STR);
+            $stmt->bindParam(':end', $endDate, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            return $result;
+        }
+        
+        
+        public function getThongKeTopKH() {
+            $end = date('Y-m-d');
+            $start = date('Y-m-01');
+            $sql = 'SELECT k.tenkh, SUM(ct.soluongmua) AS soluong
+            FROM cthoadon ct 
+            JOIN product p ON p.id = ct.idProduct 
+            JOIN hoadon h ON h.id = ct.masohd 
+            JOIN khachhang k ON h.makh = k.makh
+            WHERE h.ngaydat > :start AND h.ngaydat < :end 
+            GROUP BY h.makh
+            ORDER BY soluong DESC 
+            LIMIT 10';
+    
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':start', $start, PDO::PARAM_STR);
             $stmt->bindParam(':end', $end, PDO::PARAM_STR);
@@ -501,6 +663,22 @@
             $params = [':idp' => $idProduct, ':idc' => $idColor, ':ids' => $idSize]; 
             $updated = $this->updateData($table, $data, $condition, $params);
             return $updated;    
+         }
+         public function getCountUsers(){
+            $sql='select * from khachhang';
+            $result=$this->getCount($sql);
+            return $result;
+         }
+         public function getCountProducts(){
+            $sql= 'select * from product';
+            $result=$this->getCount($sql);
+            return $result;
+         }
+         public function getThanhTien(){
+            $namdat=date('Y');
+            $sql= 'select sum(h.tongtien) as tongtien from hoadon h where YEAR(ngaydat)='.$namdat;
+            $result=$this->getAllSql($sql);
+            return $result;
          }
     }
 ?>

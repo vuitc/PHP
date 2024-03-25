@@ -17,12 +17,16 @@ class PaymentController extends BaseController
         $khachhang = $this->paymentModel->findByUser($username);
         $cart = $_SESSION['cart'] ?? "";
         $discountPercent = $_SESSION['giam'] ?? 0;
-        return $this->view('frontend.payments.index', [
-            'pageTitle' => 'Trang phương thức thanh toán',
-            'khachhang' => $khachhang,
-            'cart' => $cart,
-            'discountPercent' => $discountPercent,
-        ]);
+        if ($cart) {
+            return $this->view('frontend.payments.index', [
+                'pageTitle' => 'Trang phương thức thanh toán',
+                'khachhang' => $khachhang,
+                'cart' => $cart,
+                'discountPercent' => $discountPercent,
+            ]);
+        } else {
+            header('Location:http://localhost/php/index.php');
+        }
     }
     public function save()
     {
@@ -30,7 +34,6 @@ class PaymentController extends BaseController
             // khách hàng đã đăng nhập
             $username = $_SESSION['username_S'] ?? "";
             $khachhang = $this->paymentModel->findByUser($username);
-            $emailKh = $khachhang['email'];
             $carts = $_SESSION['cart'] ?? "";
             $discountPercent = $_SESSION['giam'] ?? 0;
 
@@ -60,6 +63,7 @@ class PaymentController extends BaseController
                             }
                         }
                         unset($_SESSION['cart']);
+                        $_SESSION['mahd']=$createHD;
                         require_once 'mail/class.phpmailer.php';
                         require_once 'mail/class.smtp.php';
                         $mail = new PHPMailer();
@@ -67,21 +71,49 @@ class PaymentController extends BaseController
                         $mail->IsSMTP();
                         $mail->SMTPAuth = true;
                         $mail->Username = 'ganh998811@gmail.com';
-                        $mail->Password = "xybl dawz oajq rerq";// Đây là mật khẩu ứng dụng cho ứng dụng của bạn, không phải là mật khẩu của tài khoản email chính
+                        $mail->Password = "tnud hsho lzwa nizc"; // Đây là mật khẩu ứng dụng cho ứng dụng của bạn, không phải là mật khẩu của tài khoản email chính
                         $mail->SMTPSecure = "ssl";
                         $mail->Host = "smtp.gmail.com";
                         $mail->Port = "465";
                         $mail->From = 'ganh998811@gmail.com';
                         $mail->FromName = 'Vũ';
-                        $mail->AddAddress($email, 'ganh998811@gmail.com');
+                        $mail->AddAddress('ganh998811@gmail.com', 'ganh998811@gmail.com');
                         $mail->Subject = 'Hóa đơn mua hàng';
                         $mail->IsHTML(true);
-                        $mail->Body = 'Cấp lại mã code';
+                        require_once "./Models/AdminModel.php";
+                        $db = new AdminModel();
+                        $hdct = $db->getAllcthds($createHD);
+                        $mailBody = '<table border="1">
+                            <thead>
+                                <tr>
+                                    <th>Mã hóa đơn</th>
+                                    <th>Tên Sản phẩm</th>
+                                    <th>Kích cỡ</th>
+                                    <th>Màu sắc</th>
+                                    <th>Số lượng mua</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+                                    foreach ($hdct as $item) {
+                                        $mailBody .= '<tr>
+                                <td>' . $item['masohd'] . '</td>
+                                <td>' . $item['name'] . '</td>
+                                <td>' . $item['size'] . '</td>
+                                <td>' . $item['color'] . '</td>
+                                <td>' . $item['soluongmua'] . '</td>
+                                <td>' . $item['thanhtien'] . '</td>
+                            </tr>';
+                                    }
+                        $mailBody .= '</tbody></table>';
+                        $mailBody.='<h2>Tổng tiền: '. $phiBill.'</h2>';
+                        $mail->Body = 'Thông tin chi tiết:'.$mailBody;
+
                         if ($mail->Send()) {
-                            echo '<script>alert("Gửi mail thành công"); setTimeout(function() { window.location.href = "index.php?controller=register&action=change_passbymail2"; }, 100);</script>';
+                            echo '<script>alert("Gửi mail thành công"); setTimeout(function() { window.location.href = "index.php"; }, 100);</script>';
                         } else {
                             echo "Mail Error - >" . $mail->ErrorInfo;
-                            echo '<script>alert("Gửi mail không tồn tại"); setTimeout(function() { window.location.href = "index.php?controller=register&action=change_passbymail"; }, 100);</script>';
+                            echo '<script>alert("Gửi mail không tồn tại"); setTimeout(function() { window.location.href = "index.php"; }, 100);</script>';
                         }
 
 

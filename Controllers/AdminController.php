@@ -15,8 +15,25 @@ class AdminController extends BaseController
     }
     public function index()
     {
+        $thongkeHT=$this->adminModel->getThongKeThangHienTai();
+        $thongkeTopKH=$this->adminModel->getThongKeTopKH();
+        $thongkeTungThang=$this->adminModel->getThongKeTungThang();
+        $thongkeTungQuy=$this->adminModel->getThongKeTungQuy();
+        $thongkeTungNam=$this->adminModel->getThongKeTungNam();
+        $demUser=$this->adminModel->getCountUsers();
+        $demProduct=$this->adminModel->getCountProducts();
+        $profit=$this->adminModel->getThanhTien();
+        $profit=$profit[0]['tongtien'];
         return $this->view('backend.index', [
             'pageTitle' => 'Trang admin',
+            'thongkeHT'=>$thongkeHT,
+            'thongkeTopKH'=>$thongkeTopKH,
+            'thongkeTungThang'=>$thongkeTungThang,
+            'thongkeTungQuy'=>$thongkeTungQuy,
+            'thongkeTungNam'=>$thongkeTungNam,
+            'demUser'=>$demUser,
+            'demProduct'=>$demProduct,
+            'profit'=>$profit,
         ]);
     }
     public function colorIndex($str = "")
@@ -91,6 +108,22 @@ class AdminController extends BaseController
             'listProduct' => $listProduct
         ]);
     }
+    public function hoadonIndex()
+    {
+        $hoadons = $this->adminModel->getAllHoaDons();
+        $totalCount = $this->adminModel->getCountAllHoaDon();
+        $countPages = $this->pageModel->countPage($totalCount);
+        $start = $this->pageModel->pageStart();
+        $listHoadon = $this->adminModel->getAllHoaDonedPage($start, $this->pageModel->limit);
+        $currentPage = isset($_GET['pages']) ? $_GET['pages'] : 1;
+        return $this->view('backend.partition.index.hoadon', [
+            'pageTitle' => 'Trang admin',
+            'hoadons' => $hoadons,
+            'countPages' => $countPages,
+            'currentPages' => $currentPage,
+            'listHoadon' => $listHoadon
+        ]);
+    }
     public function binhLuanIndex()
     {
         $binhluans = $this->adminModel->getAllBinhLuans();
@@ -109,14 +142,7 @@ class AdminController extends BaseController
             'vouchers' => $vouchers,
         ]);
     }
-    public function hoadonIndex()
-    {
-        $hoadons = $this->adminModel->getAllHoaDons();
-        return $this->view('backend.partition.index.hoadon', [
-            'pageTitle' => 'Trang admin',
-            'hoadons' => $hoadons,
-        ]);
-    }
+
     public function cthoadonIndex()
     {
         $masohd = $_GET['id'];
@@ -138,21 +164,42 @@ class AdminController extends BaseController
     }
     public function bieudoIndex()
     {
-        $str='Thống kê';
+        $str = 'Thống kê';
         $thongke = $this->adminModel->getThongKe();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $start=$_POST['start'];
-                $end=$_POST['end'];
-                $thongke=$this->adminModel->getThongKe1($start,$end);
-                $str='Kết quả thống kê từ ngày '.$start.' đến ngày '.$end;
+            $month = $_POST['month'];
+            $year = $_POST['year'];
+            $thongke = $this->adminModel->getThongKe1($month, $year);
+            if (is_numeric($month)) {
+                $str = 'Kết quả thống kê tháng ' . $month . ' năm ' . $year;
+            }else{
+                $temp='';
+                switch($month){
+                    case 'q1':
+                        $temp=" quý 1";
+                        break;
+                    case 'q2':
+                        $temp=" quý 2";
+                        break;
+                    case 'q3':
+                        $temp=" quý 3";
+                        break;
+                    case 'q4':
+                        $temp=" quý 4";
+                        break;
+                    default:
+                        break;
+                }
+                $str = 'Kết quả thống kê theo quý ' . $temp . ' năm ' . $year;
             }
-            return $this->view('backend.partition.index.bieudo', [
-                'pageTitle' => 'Trang admin',
-                'thongke' => $thongke,
-                'str'=>$str,
-            ]);
-        
+        }
+        return $this->view('backend.partition.index.bieudo', [
+            'pageTitle' => 'Trang admin',
+            'thongke' => $thongke,
+            'str' => $str,
+        ]);
     }
+
     public function ctproductIndex()
     {
         $idproduct = $_GET['id'];
@@ -212,9 +259,11 @@ class AdminController extends BaseController
     public function productCreate()
     {
         $products = $this->adminModel->getAllProducts();
+        $categories=$this->adminModel->getAllCategories();
         return $this->view('backend.partition.create.product', [
             'pageTitle' => 'Trang admin',
             'products' => $products,
+            'categories'=>$categories
         ]);
     }
     public function voucherCreate()
@@ -292,28 +341,27 @@ class AdminController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'] ?? '';
             $slug = $_POST['slug'] ?? '';
-            $parentId = $_POST['parent_id'] ?? null;
-            // Khởi tạo biến $mainImage
-            $mainImage = '';
-            // Kiểm tra nếu đã nhận file hình ảnh từ form và không có lỗi khi upload
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $uploadDirectory = 'asset/img/';
-                if (!file_exists($uploadDirectory)) {
-                    mkdir($uploadDirectory, 0777, true); // Tạo thư mục với quyền truy cập 0777
+            if ($name && $slug) {
+                $image = $_FILES['image']['name'];
+                $success = $this->adminModel->createCategory($name, $slug, $image);
+                if ($success) {
+                    $uploadResult = uploadImage();
+                    if ($uploadResult == 1) {
+                        echo '<script>alert("Tạo thành công"); window.location.href = "index.php?controller=admin&action=categoryIndex";</script>';
+                    } else {
+                        echo '<script>alert("Upload hình không thành công"); window.location.href = "index.php?controller=admin&action=categoryCreate";</script>';
+                    }
+                }else{
+                    echo '<script>alert("Điền không hợp lệ"); window.location.href = "index.php?controller=admin&action=categoryCreate";</script>';
                 }
-                // $mainImage = $uploadDirectory . $_FILES['image']['name'];
-                $mainImage =  $_FILES['image']['name'];
-                move_uploaded_file($_FILES['image']['tmp_name'], $mainImage);
+            }else{
+                echo '<script>alert("Vui lòng điền đầy đủ thông tin"); window.location.href = "index.php?controller=admin&action=categoryCreate";</script>';
             }
-            // Gọi hàm createCategory với các tham số tương ứng
-            $success = $this->adminModel->createCategory($name, $slug, $mainImage, $parentId);
-            if ($success) {
-                echo '<script>alert("Danh mục đã được tạo mới thành công."); window.location.href = "index.php?controller=admin&action=categoryIndex";</script>';
-            } else {
-                echo '<script>alert("Đã xảy ra lỗi khi tạo danh mục."); window.location.href = "index.php?controller=admin&action=categoryCreate";</script>';
-            }
+
+    
         }
     }
+    
     public function khachHangC()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -404,7 +452,7 @@ class AdminController extends BaseController
                         echo '<script>alert("Upload hình không thành công"); window.location.href = "index.php?controller=admin&action=ctproductCreate&id=' . $idproduct . '";</script>';
                     }
                 } else {
-                    echo '<script>alert("Thông tin điền không hợp lệ"); window.location.href = "index.php?controller=admin&action=ctproductCreate&id=' . $idproduct . '";</script>';
+                    echo '<script>alert("Thông tin điền không hợp lệ. Hoặc đã trùng sản phẩm trước đó"); window.location.href = "index.php?controller=admin&action=ctproductCreate&id=' . $idproduct . '";</script>';
                 }
             } else {
                 echo '<script>alert("Vui lòng điền đầy đủ thông tin"); window.location.href = "index.php?controller=admin&action=ctproductCreate&id=' . $idproduct . '";</script>';
@@ -441,6 +489,19 @@ class AdminController extends BaseController
             echo '<script>alert("Không tìm thấy 404"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=sizeIndex"; }, 100);</script>';
         }
     }
+    public function categoryEdit()
+    {
+        $categoryId = $_GET['id'] ?? null;
+        if ($categoryId) {
+            $categoryDetails = $this->adminModel->getCategoryDetails($categoryId);
+            return $this->view('backend.partition.edit.category', [
+                'pageTitle' => 'Edit category',
+                'categoryDetails' => $categoryDetails
+            ]);
+        } else {
+            echo '<script>alert("Không tìm thấy 404"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=sizeIndex"; }, 100);</script>';
+        }
+    }
     public function sliderEdit()
     {
         $sliderId = $_GET['id'] ?? null;
@@ -463,10 +524,12 @@ class AdminController extends BaseController
         $id = $_GET['id'] ?? null;
         if ($id) {
             $productDetails = $this->adminModel->getProductDetails($id);
+            $categories=$this->adminModel->getAllCategories();
             if ($productDetails) {
                 return $this->view('backend.partition.edit.product', [
                     'pageTitle' => 'Edit Slider',
-                    'productDetails' => $productDetails
+                    'productDetails' => $productDetails,
+                    'categories'=>$categories,
                 ]);
             } else {
                 echo '<script>alert("Không tìm thấy 404"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=productIndex"; }, 100);</script>';
@@ -557,6 +620,35 @@ class AdminController extends BaseController
             }
         }
     }
+    public function categoryUpdate()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_GET['id'] ?? null;
+            $name = $_POST['name'] ?? '';
+            $slug = $_POST['slug'] ?? '';
+            $imagecu = $_POST['imagecu'] ?? '';
+            if ($id && $name && $imagecu) {
+                $image = isset($_FILES['image']['name']) ? $_FILES['image']['name'] : $imagecu;
+                $updated = $this->adminModel->updateCategory($id, $name, $slug, $image);
+                if ($updated) {
+                    if ($imagecu == $image) {
+                        echo '<script>alert("Cập nhật thành công"); window.location.href = "index.php?controller=admin&action=categoryIndex";</script>';
+                    } else {
+                        $uploadResult = uploadImage();
+                        if ($uploadResult == 1) {
+                            echo '<script>alert("Tạo thành công"); window.location.href = "index.php?controller=admin&action=categoryIndex";</script>';
+                        } else {
+                            echo '<script>alert("Upload hình không thành công"); window.location.href = "index.php?controller=admin&action=categoryEdit&id=' . $id . '";</script>';
+                        }
+                    }
+                } else {
+                    echo '<script>alert("Thông tin điền không hợp lệ thành công"); window.location.href = "index.php?controller=admin&action=categoryEdit&id=' . $id . '";</script>';
+                }
+            } else {
+                echo '<script>alert("Vui lòng điền đầy đủ thông tin"); window.location.href = "index.php?controller=admin&action=categoryEdit&id=' . $id . '";</script>';
+            }
+        }
+    }
     public function sliderUpdate()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -603,12 +695,12 @@ class AdminController extends BaseController
             $mota = $_POST['mota'] ?? '';
             $chitiet = $_POST['chitiet'] ?? '';
 
-            if ($id && $name && $id_category && $dacbiet && $luotxem && $ngaylap && $mota && $chitiet) {
+            if ($id && $name && $id_category && $luotxem && $ngaylap && $mota && $chitiet) {
                 $updated = $this->adminModel->updateProduct($id, $name, $id_category, $dacbiet, $luotxem, $ngaylap, $mota, $chitiet);
                 if ($updated) {
                     echo '<script>alert("Đã cập nhật thành công"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=productIndex"; }, 100);</script>';
                 } else {
-                    echo '<script>alert("Cập nhật thất bại"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=productIndex"; }, 100);</script>';
+                    echo '<script>alert("Cập nhật thất bại. Hoặc đã trùng dữ liệu trước đó"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=productIndex"; }, 100);</script>';
                 }
             } else {
                 echo '<script>alert("Cập nhật thất bại. Chưa đủ thông tin"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=productIndex"; }, 100);</script>';
@@ -625,18 +717,21 @@ class AdminController extends BaseController
             $soluongton = $_POST['soluongton'];
             $giamgia = $_POST['giamgia'];
             $price = $_POST['price'];
-            $image = $_FILES['image']['name'];
-            if ($soluongton && $giamgia && $price && $image) {
-                $uploadResult = uploadImage();
+            if ($soluongton && $giamgia && $price) {
+                if(isset($_FILES['image']['name'])&& is_uploaded_file($_FILES['image']['tmp_name'])) {
+                    $image = $_FILES['image']['name'];
+                    $uploadResult = uploadImage();
+                } 
                 if ($uploadResult == 1) {
                     $updated = $this->adminModel->updateCtproduct($idp, $idc, $ids, $soluongton, $giamgia, $price, $image);
                     if ($updated) {
                         echo '<script>alert("Đã cập nhật thành công"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=ctproductIndex&id=' . $idp . '"; }, 100);</script>';
                     } else {
-                        echo '<script>alert("Cập nhật thất bại"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=ctproductIndex&id=' . $idp . '"; }, 100);</script>';
+                        echo '<script>alert("Bạn chưa sửa thông tin"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=ctproductIndex&id=' . $idp . '"; }, 100);</script>';
                     }
                 } else {
-                    echo '<script>alert("Đã có lỗi up hình"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=ctproductIndex&id=' . $idp . '"; }, 100);</script>';
+                    $this->adminModel->updateCtproduct($idp, $idc, $ids, $soluongton, $giamgia, $price,'');
+                    echo '<script>alert("Cập nhật hình cũ nội dung thành công"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=ctproductIndex&id=' . $idp . '"; }, 100);</script>';
                 }
             } else {
                 echo '<script>alert("Điền thông tin không hợp lệ"); setTimeout(function() { window.location.href = "index.php?controller=admin&action=ctproductIndex&id=' . $idp . '"; }, 100);</script>';
@@ -729,6 +824,17 @@ class AdminController extends BaseController
                 echo '<script>alert("Xóa màu sắc thành công."); window.location.href = "index.php?controller=admin&action=sizeIndex";</script>';
             } else {
                 echo '<script>alert("Đã xảy ra lỗi khi xóa màu sắc."); window.location.href = "index.php?controller=admin&action=sizeIndex";</script>';
+            }
+        }
+    }
+    public function categoryDestroy(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])) {
+            $categoryId = $_GET['id'];
+            $deleted = $this->adminModel->deleteCategory($categoryId);
+            if ($deleted) {
+                echo '<script>alert("Xóa danh mục thành công."); window.location.href = "index.php?controller=admin&action=categoryIndex";</script>';
+            } else {
+                echo '<script>alert("Đã xảy ra lỗi khi xóa màu sắc."); window.location.href = "index.php?controller=admin&action=categoryIndex";</script>';
             }
         }
     }

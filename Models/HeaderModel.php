@@ -1,5 +1,6 @@
 <?php
     require_once 'BaseModel.php';
+    ob_start();
     class HeaderModel{
         const TABLE_1='category';
         const TABLE_2='pages';
@@ -26,6 +27,14 @@
                 'id'=>12,
                 'name'=>'iphone',
             ];
+        }
+        public function getAvatar($username){
+            $sql = 'SELECT tenkh, diachi, phone, avatar from khachhang where username=:username';
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         }
     }
 ?>

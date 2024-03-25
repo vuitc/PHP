@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toggle Password Visibility</title>
+    <title>Đăng nhập</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="css/style.css" />
     <style>
@@ -127,12 +127,12 @@
         <form id="signin" class="form" method="post" action="index.php?controller=register&action=dangnhap_act">
             <h1>Đăng nhập</h1>
             <div class="form-field">
-                <label for="username">Username:</label>
+                <label for="username">Tên người dùng:</label>
                 <input type="text" name="username" id="username" autocomplete="off">
                 <small></small>
             </div>
             <div class="form-field">
-                <label for="password">Password:</label>
+                <label for="password">Mật khẩu:</label>
                 <input type="password" name="password" id="password" autocomplete="off">
                 <i class="bi bi-eye-slash" id="togglePassword"
                     style="position: relative; top: -40px; left: 300px;; cursor: pointer;"></i>
@@ -148,98 +148,100 @@
         </form>
     </div>
     <script>
-    // // Lấy các phần tử input từ DOM
-    // var usernameInput = document.getElementById('username');
-    // var passwordInput = document.getElementById('password');
+  // Lấy các phần tử input từ DOM
+var usernameInput = document.getElementById('username');
+var passwordInput = document.getElementById('password');
 
-    // // Hàm kiểm tra tính hợp lệ của tên người dùng
-    // function validateUsername() {
-    //     var username = usernameInput.value.trim();
-    //     var formField = usernameInput.parentElement;
-    //     var errorSmall = formField.querySelector('small');
+// Lấy thông báo lỗi
+var showError = document.querySelector('.showError');
 
-    //     if (username === '') {
-    //         formField.classList.add('error');
-    //         errorSmall.textContent = 'Trường này không được để trống';
-    //         return false;
-    //     } else if (username.length < 3) {
-    //         formField.classList.add('error');
-    //         errorSmall.textContent = 'Username phải có ít nhất 3 kí tự';
-    //         return false;
-    //     } else {
-    //         formField.classList.remove('error');
-    //         errorSmall.textContent = '';
-    //         return true;
-    //     }
-    // }
+// Hàm kiểm tra tính hợp lệ của tên người dùng
+function validateUsername() {
+    var username = usernameInput.value.trim();
+    var formField = usernameInput.parentElement;
+    var errorSmall = formField.querySelector('small');
 
-    // // Hàm kiểm tra tính hợp lệ của mật khẩu
-    // function validatePassword() {
-    //     var password = passwordInput.value.trim();
-    //     var formField = passwordInput.parentElement;
-    //     var errorSmall = formField.querySelector('small');
+    if (username === '') {
+        formField.classList.add('error');
+        errorSmall.textContent = 'Trường này không được để trống';
+        return false;
+    } else if (username.length < 3) {
+        formField.classList.add('error');
+        errorSmall.textContent = 'Username phải có ít nhất 3 kí tự';
+        return false;
+    } else {
+        formField.classList.remove('error');
+        errorSmall.textContent = '';
+        return true;
+    }
+}
 
-    //     if (password === '') {
-    //         formField.classList.add('error');
-    //         errorSmall.textContent = 'Trường này không được để trống';
-    //         return false;
-    //     } else if (password.length < 6) {
-    //         formField.classList.add('error');
-    //         errorSmall.textContent = 'Password phải có ít nhất 6 kí tự';
-    //         return false;
-    //     } else {
-    //         formField.classList.remove('error');
-    //         errorSmall.textContent = '';
-    //         return true;
-    //     }
-    // }
+// Hàm kiểm tra tính hợp lệ của mật khẩu
+function validatePassword() {
+    var password = passwordInput.value.trim();
+    var formField = passwordInput.parentElement;
+    var errorSmall = formField.querySelector('small');
 
-    // // Hàm kiểm tra đăng nhập sau khi người dùng nhấn submit
-    // function checkSignIn() {
-    //     var formData1 = JSON.parse(localStorage.getItem('formData'));
-    //     var isUsernameValid = validateUsername();
-    //     var isPasswordValid = validatePassword();
+    if (password === '') {
+        formField.classList.add('error');
+        errorSmall.textContent = 'Trường này không được để trống';
+        return false;
+    } else if (password.length < 6) {
+        formField.classList.add('error');
+        errorSmall.textContent = 'Password phải có ít nhất 6 kí tự';
+        return false;
+    } else {
+        formField.classList.remove('error');
+        errorSmall.textContent = '';
+        return true;
+    }
+}
 
-    //     if (isUsernameValid && isPasswordValid) {
-    //         var isUsername = usernameInput.value.trim() === formData1.username;
-    //         var isPassword = passwordInput.value.trim() === formData1.password;
+// Hàm kiểm tra đăng nhập khi người dùng gửi form
+function checkSignIn() {
+    var isUsernameValid = validateUsername();
+    var isPasswordValid = validatePassword();
 
-    //         if (isUsername && isPassword) {
-    //             alert('Đăng nhập thành công');
-    //         } else {
-    //             var showError = document.querySelector('.showError');
-    //             showError.textContent = 'Username hoặc password chưa đúng. Vui lòng kiểm tra lại';
-    //         }
-    //     }
-    // }
+    if (isUsernameValid && isPasswordValid) {
+        // Thực hiện kiểm tra đăng nhập
+        var formData1 = JSON.parse(localStorage.getItem('formData'));
+        var isUsername = usernameInput.value.trim() === formData1.username;
+        var isPassword = passwordInput.value.trim() === formData1.password;
 
-    // // Bắt sự kiện khi người dùng thay đổi giá trị tên người dùng
-    // usernameInput.addEventListener('input', validateUsername);
-    // usernameInput.addEventListener('blur', validateUsername);
+        if (isUsername && isPassword) {
+            alert('Đăng nhập thành công');
+        } else {
+            showError.textContent = 'Username hoặc password chưa đúng. Vui lòng kiểm tra lại';
+        }
+    }
+}
 
-    // // Bắt sự kiện khi người dùng thay đổi giá trị mật khẩu
-    // passwordInput.addEventListener('input', validatePassword);
-    // passwordInput.addEventListener('blur', validatePassword);
+// Lắng nghe sự kiện change từ người dùng
+usernameInput.addEventListener('change', validateUsername);
+passwordInput.addEventListener('change', validatePassword);
 
-    // // Bắt sự kiện khi người dùng nhấn submit
-    // var form = document.getElementById('signin');
-    // form.addEventListener('submit', function(event) {
-    //     event.preventDefault();
-    //     checkSignIn();
-    // });
+// Lắng nghe sự kiện keyup và keydown từ người dùng
+usernameInput.addEventListener('keyup', validateUsername);
+passwordInput.addEventListener('keyup', validatePassword);
+usernameInput.addEventListener('keydown', validateUsername);
+passwordInput.addEventListener('keydown', validatePassword);
 
-    // // Hàm kiểm tra độ dài giới hạn của chuỗi
-    // const isBetween = (input, min = 3, max = 25) => input.length >= min && input.length <= max;
+// Bắt sự kiện khi người dùng nhấn submit
 
-    // //Bắt sự kiện eye password toggle text<=>password
-    // const togglePassword = document.querySelector('#togglePassword');
-    // togglePassword.addEventListener('click', function() {
-    //     var eye = passwordInput.getAttribute('type');
-    //     eye = eye === 'password' ? 'text' : 'password';
-    //     passwordInput.setAttribute('type', eye);
-    //     // tính chất ghi đè class 
-    //     togglePassword.classList.toggle('bi-eye');
-    // });
+
+// Hàm kiểm tra độ dài giới hạn của chuỗi
+const isBetween = (input, min = 3, max = 25) => input.length >= min && input.length <= max;
+
+//Bắt sự kiện eye password toggle text<=>password
+const togglePassword = document.querySelector('#togglePassword');
+togglePassword.addEventListener('click', function() {
+    var eye = passwordInput.getAttribute('type');
+    eye = eye === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', eye);
+    // tính chất ghi đè class 
+    togglePassword.classList.toggle('bi-eye');
+});
+
     </script>
 </body>
 

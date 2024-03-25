@@ -28,7 +28,7 @@ ob_start();
               <a class="nav-link" aria-current="page" href="index.php?controller=admin&action=khachHangIndex">Khách hàng</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="index.php?controller=admin&action=categoryIndex">Danh mục sản phẩm</a>
+              <a class="nav-link" href="index.php?controller=admin&action=categoryIndex">Danh mục chính</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.php?controller=admin&action=productIndex">Sản phẩm</a>
@@ -55,6 +55,14 @@ ob_start();
             
           </ul>
          <div class="d-flex">
+            <a href="index.php?controller=admin">
+              <?php
+                require_once './Models/IndexModel.php';
+                $db=new IndexModel();
+                $avatar=$db->getInfo($_SESSION['username_S']);
+               echo '<img src="asset/img/'.$avatar[0]['avatar'].'" style="width:50px; border-radius:50%; margin-top:10px">'
+              ?>
+            </a>
             <a href="index.php?controller=admin" class="nav-link text-dark"><?=$_SESSION['username_S']?></a>
            <a href="index.php?controller=register&action=logout" class="nav-link text-dark">Đăng xuất</a>
          </div>

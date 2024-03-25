@@ -92,6 +92,7 @@
 </script>
 <div class="col-12" style="min-height: 80vh;">
     <h1>Danh sách sản phẩm</h1>
+    <a href="index.php?controller=admin&action=productCreate" class="btn btn-primary mb-3">Tạo</a>
     <form action="" id="searchForm">
         <div class="input-group" style="position: relative;">
             <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm sản phẩm">
@@ -101,7 +102,7 @@
         </div>
     </form>
     <?php if ($listProduct) : ?>
-        <a href="index.php?controller=admin&action=productCreate" class="btn btn-primary mb-3">Tạo</a>
+       
         <form action="index.php?controller=no&action=productFile" method="post" enctype="multipart/form-data">
             <input type="submit" name="submit_excel" value="Export">
         </form>

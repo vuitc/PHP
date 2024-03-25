@@ -13,7 +13,7 @@
         <form action="index.php?controller=no&action=file" method="post" enctype="multipart/form-data">
             <input type="submit" name="submit_excel" value="Export">
         </form>
-        <p style="color:yellow"><?php echo $str ?></p>
+        <p style="color:black"><?php echo $str ?></p>
         <table class="table">
             <thead>
                 <tr>

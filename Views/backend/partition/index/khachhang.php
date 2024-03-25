@@ -40,6 +40,7 @@
                 <tr>
                     <th>ID:</th>
                     <th>Tên</th>
+                    <th>Hình</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Địa chỉ</th>
@@ -54,6 +55,13 @@
                     <tr class="customer-row">
                         <td><?php echo $makh; ?></td>
                         <td><?php echo $tenkh; ?></td>
+                        <td><img src="<?php
+                            if($avatar){
+                                echo 'asset/img/'.$avatar;
+                            }else{
+                                echo 'asset/img/avatar/avatar.jpg';
+                            }
+                        ?>" alt="" style="width:50px; height:50px border-radius:10%"></td>
                         <td><?php echo $username; ?></td>
                         <td><?php echo $email; ?></td>
                         <td><?php echo $diachi; ?></td>

@@ -17,7 +17,7 @@ function uploadImage()
         }
 
         // Kiểm tra dung lượng
-        if ($_FILES['image']['size'] > 500000) {
+        if ($_FILES['image']['size'] > 5000000) {
             echo '<script>alert("Hình vượt quá dung lượng")</script>';
            return  $upload = 0;
         }

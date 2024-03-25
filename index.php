@@ -49,6 +49,8 @@ function actionMethod(){
                         break;
                     case 'draw':
                         require_once "./Views/backend/partition/csv/draw.php";
+                    case 'pdf':
+                        require "./Views/backend/partition/csv/pdf.php";
                     
                     break;
                 }

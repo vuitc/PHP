@@ -15,7 +15,23 @@
         <div class="col-lg-8 col-md-12">
             <div class="row">
                 <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Đường dẫn</h5>
+                    <h5 class="font-weight-medium text-dark mb-4">Đường dẫn</h5>
+                    <div class="d-flex flex-column justify-content-start">
+                        <a class="text-dark mb-2" href="index.php"><i class="fa fa-angle-right mr-2"></i>Trang chủ</a>
+                        <a class="text-dark mb-2" href="index.php?controller=shop"><i
+                                class="fa fa-angle-right mr-2"></i>Cửa hàng</a>
+                        <a class="text-dark mb-2" href="index.php?controller=detail&id=1"><i
+                                class="fa fa-angle-right mr-2"></i>Chi tiết</a>
+                        <a class="text-dark mb-2" href="index.php?controller=cart"><i
+                                class="fa fa-angle-right mr-2"></i>Giỏ hàng</a>
+                        <a class="text-dark mb-2" href="index.php?controller=payment"><i
+                                class="fa fa-angle-right mr-2"></i>Thanh toán</a>
+                        <a class="text-dark" href="index.php?controller=contact"><i
+                                class="fa fa-angle-right mr-2"></i>Liên hệ</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <h5 class="font-weight-medium text-dark mb-4">Đường dẫn</h5>
                     <div class="d-flex flex-column justify-content-start">
                         <a class="text-dark mb-2" href="index.php"><i class="fa fa-angle-right mr-2"></i>Trang chủ</a>
                         <a class="text-dark mb-2" href="index.php?controller=shop"><i
@@ -31,23 +47,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Đường dẫn</h5>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-dark mb-2" href="index.php"><i class="fa fa-angle-right mr-2"></i>Trang chủ</a>
-                        <a class="text-dark mb-2" href="index.php?controller=shop"><i
-                                class="fa fa-angle-right mr-2"></i>Cửa hàng</a>
-                        <a class="text-dark mb-2" href="index.php?controller=detail"><i
-                                class="fa fa-angle-right mr-2"></i>Chi tiết</a>
-                        <a class="text-dark mb-2" href="index.php?controller=cart"><i
-                                class="fa fa-angle-right mr-2"></i>Giỏ hàng</a>
-                        <a class="text-dark mb-2" href="index.php?controller=checkout"><i
-                                class="fa fa-angle-right mr-2"></i>Thanh toán</a>
-                        <a class="text-dark" href="index.php?controller=contact"><i
-                                class="fa fa-angle-right mr-2"></i>Liên hệ</a>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Bản tin</h5>
+                    <h5 class="font-weight-medium text-dark mb-4">Bản tin</h5>
                     <form action="">
                         <div class="form-group">
                             <input type="text" class="form-control border-0 py-4" placeholder="Your Name"

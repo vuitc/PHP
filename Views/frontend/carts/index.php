@@ -1,6 +1,6 @@
 <?php
-    var_dump($discountPercent);
-    var_dump($total);
+    // var_dump($discountPercent);
+    // var_dump($total);
     function renderProduct($products) {
         $str = '';
         if (is_array($products) && !empty($products)) {
@@ -22,7 +22,7 @@
                                 </a>                           
                             </form>
                             </div>
-                            <input type="text" class="form-control form-control-sm bg-secondary text-center" value="'.$qty.'">
+                            <input type="text" readonly class="form-control form-control-sm bg-secondary text-center" value="'.$qty.'">
                             <div class="input-group-btn">
                             <a href="index.php?controller=cart&action=upQuantity&index='.$ma.'" class="btn btn-sm btn-primary btn-plus" data-key="'.$key.'" data-quantity="'.$qty.'">
                                 <i class="fa fa-plus"></i>
@@ -40,26 +40,15 @@
     
 ?>
 <!-- Page Header Start -->
-<div class="container-fluid bg-secondary mb-5">
+<div class="container-fluid bg-secondary ">
     <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-        <h1 class="font-weight-semi-bold text-uppercase mb-3">Trang giỏ hàng</h1>
+        <!-- <h1 class="font-weight-semi-bold text-uppercase mb-3">Trang giỏ hàng</h1>
         <div class="d-inline-flex">
             <p class="m-0"><a href="index.php">Trang chủ</a></p>
             <p class="m-0 px-2">-</p>
             <p class="m-0">Giỏ hàng</p>
-        </div>
-    </div>
-</div>
-<!-- Page Header End -->
-
-</div>
-</div>
-</div>
-<!-- Cart Start -->
-<div class="container-fluid">
-    <div class="row px-xl-5">
-        <div class="col-lg-8 table-responsive mb-5">
-            <table class="table table-bordered text-center mb-0">
+        </div> -->
+        <table class="table table-bordered text-center mb-0">
                 <thead class="bg-secondary text-dark">
                     <tr>
                         <th>Sản phẩm</th>
@@ -74,31 +63,38 @@
                             $result=renderProduct($products);
                             echo $result;
                         ?>
-                    <!-- <tr>
-                            <td class="align-middle"><img src="asset/img/product-5.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr> -->
+                
                 </tbody>
             </table>
-        </div>
-        <div class="col-lg-4">
+    </div>
+</div>
+<!-- Page Header End -->
+
+</div>
+</div>
+</div>
+<!-- Cart Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 table-responsive ">
+            <!-- <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th>Xoá</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <?php
+                            $result=renderProduct($products);
+                            echo $result;
+                        ?>
+                
+                </tbody>
+            </table> -->
             <form class="mb-5" action="index.php?controller=cart" method="post">
                 <div class="input-group">
                     <input type="text" class="form-control p-4" name="voucher" placeholder="code">
@@ -107,6 +103,9 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="col-lg-4">
+           
             <div class="card border-secondary mb-5">
                 <div class="card-header bg-secondary border-0">
                     <h4 class="font-weight-semi-bold m-0">Tính toán</h4>

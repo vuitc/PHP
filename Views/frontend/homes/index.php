@@ -4,7 +4,7 @@ function renderProduct($product){
     if (is_array($product) && !empty($product)) {
         $str.=' <div class="container-fluid pt-5">
                     <div class="text-center mb-4">
-                        <h2 class="section-title px-5"><span class="px-2">'.$product[1].'</span></h2>
+                        <h2 class="section-title px-5"><span class="px-2" style="font-family:cursive">'.$product[1].'</span></h2>
                     </div>
                     <div class="row px-xl-5 pb-3">
                         ';
@@ -220,7 +220,7 @@ echo $kqProductNew;
     <div class="row justify-content-md-center py-5 px-xl-5">
         <div class="col-md-6 col-12 py-5">
             <div class="text-center mb-2 pb-2">
-                <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Cập Nhật Thường Xuyên</span></h2>
+                <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2" style="font-family:cursive">Cập Nhật Thường Xuyên</span></h2>
                 <p>Luôn cập nhật những thông tin mới nhất</p>
                 <p>Đừng bỏ lỡ những tin tức và cập nhật quan trọng!</p>
             </div>
